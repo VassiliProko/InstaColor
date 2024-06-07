@@ -36,3 +36,15 @@ div.box-collective {
     flex-wrap: wrap;
     justify-content: center;
 }
+
+.flashMessage {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #569233;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+}

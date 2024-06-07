@@ -20,9 +20,10 @@ if __name__ == '__main__':
 # get instaloader instance
 ig = instaloader.Instaloader()
 
-profile_directory = '.venv/user_profile/'
+profile_directory = 'user_profile/'
 entries = os.listdir(profile_directory)
 
+#atexit function referenced by chatGPT
 # registers atexit function, will be called when program exits (stops)
 def register_delete_directory_contents(profile_directory):    
     atexit.register(delete_directory_contents, profile_directory)
@@ -70,7 +71,7 @@ def handle_redirect():
         os.makedirs(target_path, exist_ok=True)
         
         # download the profile's image posts to the target path
-        existing_directory = '.venv/user_profile/' + profile
+        existing_directory = 'user_profile/' + profile
         ig.dirname_pattern = existing_directory
 
         # doesn't save metadata, and downloads pics
@@ -99,8 +100,6 @@ def handle_redirect():
             if file.endswith(".txt"):
                 os.remove(os.path.join(existing_directory, file))    
 
-        # set variable = to profile_picture to display in result
-
         # return result
         return redirect(url_for('result', profile=profile))
     except Exception as e:
@@ -114,8 +113,8 @@ def result(profile):
     if profile is None:
         return redirect('/')
     
-    # GETS 5 DOMINANT COLORS
-    directory = '.venv/user_profile/' + profile
+    # GETS 5 DOMINANT COLORS, referenced from chatGPT
+    directory = 'user_profile/' + profile
     images = load_images_from_directory(directory)
     dominant_colors = aggregate_colors(images, k=5, final_k=5)
     dominant_colors_list = dominant_colors.tolist()
