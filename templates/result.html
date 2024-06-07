@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block main %}
+    
+<p>RESULT</p>
+
+<body>A
+<div id="colorDisplay" class="box-collective">{{ color }}</div>
+</body>
+
+<script>
+    var colors = JSON.parse('{{ dominant_colors | tojson | safe }}');
+
+    var colorList = document.getElementById('colorDisplay');
+
+    colors.forEach(function(color) {
+    var colorString = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+    var hexColor = `#${((1 << 24) + (color[0] << 16) + (color[1] << 8) + color[2]).toString(16).slice(1).toUpperCase()}`;
+
+    var colorDiv = document.createElement("div");
+    colorDiv.style.backgroundColor = colorString; 
+    colorDiv.className = "colorBox"
+    colorDiv.textContent = hexColor; // hex code is the text content inside of div block
+
+    colorDiv.addEventListener('click', function() {
+        copyText(colorString);
+    })
+
+    colorList.appendChild(colorDiv);
+    })
+
+
+    // FIX! Commit
+    function copyText() {
+        navigator.clipboard.writeText(text).then(function() {
+            alert('Copied to clipboard: ' + text);
+        });
+    }
+</script>
+
+
+
+{% endblock %}

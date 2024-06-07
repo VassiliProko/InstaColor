@@ -1,0 +1,38 @@
+.form-control-inline {
+    display: inline-block;
+    width: auto;
+}
+
+h1 {
+    color: #612d2d;
+}
+
+.navbar-color {
+    background-color: #d0b8ac;
+}
+
+.secondary-color {
+    color: #eca980;
+}
+
+#colorDisplay {
+    display: flex;
+}
+.colorBox {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px black;
+    cursor: pointer;
+}
+
+div.box-collective {
+    text-align: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}

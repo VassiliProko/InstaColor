@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <p>
+        Search up a public instagram account to show their profile's color mood!
+    </p>
+    <form id="myForm" action ="/redirect" method="post" class="form-inline">
+        <div class="form-group mb-3">
+            <input autocomplete="off" autofocus class="form-control form-control-inline" name="profile" placeholder="profile" type="text">
+            <button class="btn btn-primary" type="submit" onclick="submitForm(this);">Search</button>
+        </div>
+    </form>
+
+    {% if error %}
+        <p>Error: {{ error }}</p>
+    {% endif %}
+    
+    <script>
+        function submitForm(button) {
+            button.innerText = 'Please Wait!';
+
+            var form = document.getElementById('myForm')
+
+            form.submit();
+        }
+    </script>
+    
+    
+{% endblock %}
