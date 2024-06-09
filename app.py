@@ -52,16 +52,32 @@ def get_error_message():
 @app.route("/")
 def index():
     error_message = get_error_message()
-    return render_template("index.html", error=error_message)
+    profile = session.get('profile', '')
+    datefrom = session.get('datefrom', '')
+    dateto = session.get('dateto', '')
+    return render_template("index.html", error=error_message, profile=profile, datefrom=datefrom, dateto=dateto)
 
 @app.route("/redirect", methods=["POST"])
 def handle_redirect():
     # check for username
     set_error_message("")
     profile = request.form.get("profile")
+    datefrom = request.form.get("datefrom")
+    dateto = request.form.get("dateto")
+    print(profile, datefrom, dateto) # console checking if works
+
+    # saves inputs to session incase of submission error
     session['profile'] = profile
+    session['datefrom'] = datefrom
+    session['dateto'] = dateto
     if not profile:
         set_error_message("username required")
+        return redirect('/')
+    elif not datefrom:
+        set_error_message("date from required")
+        return redirect('/')
+    elif not dateto:
+        set_error_message("date to required")
         return redirect('/')
     try:
         # try downloading profile data
