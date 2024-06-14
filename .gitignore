@@ -3,3 +3,5 @@
 user_profile/*
 static/pfp_directory/*
 cs50.txt
+__pycache__/*
+__pycache__/
