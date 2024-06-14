@@ -202,3 +202,7 @@ def load_images_from_directory(directory):
             if image is not None:
                 images.append(image)
     return images, pfp_path
+
+@app.route('/about')
+def about():
+    return render_template("about.html")
