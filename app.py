@@ -21,6 +21,7 @@ if __name__ == '__main__':
 ig = instaloader.Instaloader()
 
 profile_directory = 'user_profile/'
+pfp_directory = 'static/pfp_directory/'
 entries = os.listdir(profile_directory)
 
 #atexit function referenced by chatGPT
@@ -40,6 +41,7 @@ def delete_directory_contents(profile_directory):
 
 # deletes stuff when program starts up
 register_delete_directory_contents(profile_directory)
+register_delete_directory_contents(pfp_directory)
 
 # global error messages
 def set_error_message(message):
@@ -97,8 +99,8 @@ def handle_redirect():
         ig.download_videos = False
         
         # downloads posts from time frame
-        SINCE = datetime(2024, 5, 1)
-        UNTIL = datetime(2024, 6, 1)
+        SINCE = datetime.strptime(datefrom, '%Y-%m-%d')
+        UNTIL = datetime.strptime(dateto, '%Y-%m-%d')
 
         for post in posts:
             postdate = post.date
@@ -110,6 +112,7 @@ def handle_redirect():
             else:
                 ig.download_post(post, profile)
 
+        ig.download_profile(profile, profile_pic_only = True)
     
         # delete any files that aren't image type or IGNORE, DELETE AFTER SESSION OVER
         for file in os.listdir(existing_directory):
@@ -131,22 +134,28 @@ def result(profile):
     
     # GETS 5 DOMINANT COLORS, referenced from chatGPT
     directory = 'user_profile/' + profile
-    images = load_images_from_directory(directory)
+    images, pfp_path = load_images_from_directory(directory)
     dominant_colors = aggregate_colors(images, k=5, final_k=5)
     dominant_colors_list = dominant_colors.tolist()
 
     # Display the dominant colors in terminal
     for i, color in enumerate(dominant_colors):
         print(f"Color {i+1}: {color}")
+    print(images)
+    print(pfp_path)
 
-    return render_template("result.html", profile=profile, dominant_colors=dominant_colors_list)
+    pfp_url = url_for('static', filename=f'pfp_directory/{os.path.basename(pfp_path)}')
+    print(pfp_url)
+    return render_template("result.html", profile=profile, dominant_colors=dominant_colors_list, pfp_url=pfp_url)
 
 
 def get_dominant_colors(image, k=5):
     # Reshape the image to be a list of pixels
+    # turns image into 2d array instead of 3d (height, width, rgb channels)
     pixels = image.reshape(-1, 3)
     
     # Perform KMeans clustering to find the k dominant colors
+    # groups the pixels together in k (5) clusters
     kmeans = KMeans(n_clusters=k)
     kmeans.fit(pixels)
     
@@ -180,10 +189,16 @@ def aggregate_colors(images, k=5, final_k=5):
 
 def load_images_from_directory(directory):
     images = []
+    pfp_path = None
+
     for filename in os.listdir(directory):
-        if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+        if filename.lower().endswith('profile_pic.jpg'):
+            src_path = os.path.join(directory, filename)
+            pfp_path = os.path.join(pfp_directory, filename)
+            shutil.move(src_path, pfp_path)
+        elif filename.lower().endswith(('.png', '.jpg', '.jpeg')):
             image_path = os.path.join(directory, filename)
             image = cv2.imread(image_path)
             if image is not None:
                 images.append(image)
-    return images
+    return images, pfp_path
