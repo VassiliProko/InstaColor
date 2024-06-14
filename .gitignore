@@ -2,3 +2,4 @@
 .venv/
 user_profile/*
 static/pfp_directory/*
+cs50.txt
