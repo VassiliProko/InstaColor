@@ -4,15 +4,45 @@
 }
 
 h1 {
-    color: #612d2d;
+    color: #444;
 }
 
 .navbar-color {
-    background-color: #d0b8ac;
+    background-color: #eeeeee;
 }
 
-.secondary-color {
-    color: #eca980;
+.navbar {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+main {
+    font-family: monospace;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    margin-right: 50px;
+    list-style: none;
+}
+
+nav li {
+    display: inline-block;
+    margin-left: 70px;
+    
+}
+
+nav a {
+    color:#444;
+    text-decoration: none;
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: letter-spacing 0.3s ease;
+    display: inline-block;
+}
+
+nav a:hover {
+    letter-spacing: 1px;
 }
 
 #colorDisplay {
@@ -42,7 +72,7 @@ div.box-collective {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #569233;
+    background-color: #444;
     color: #fff;
     padding: 10px;
     border-radius: 5px;
