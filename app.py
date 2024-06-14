@@ -26,20 +26,24 @@ entries = os.listdir(profile_directory)
 
 #atexit function referenced by chatGPT
 # registers atexit function, will be called when program exits (stops)
-def register_delete_directory_contents(profile_directory):    
-    atexit.register(delete_directory_contents, profile_directory)
+def register_delete_directory_contents(directory):    
+    atexit.register(delete_directory_contents, directory)
 
 # deletes user_profile contents
-def delete_directory_contents(profile_directory):
-    if os.path.exists(profile_directory):
-        for entry in entries:
-            entry_path = os.path.join(profile_directory, entry)
+def delete_directory_contents(directory):
+    if os.path.exists(directory):
+        for entry in os.listdir(directory):
+            entry_path = os.path.join(directory, entry)
             if os.path.isfile(entry_path):
                 os.remove(entry_path)
             else:
                 shutil.rmtree(entry_path)
 
 # deletes stuff when program starts up
+delete_directory_contents(profile_directory)
+delete_directory_contents(pfp_directory)
+
+# deletes stuff when program stops
 register_delete_directory_contents(profile_directory)
 register_delete_directory_contents(pfp_directory)
 
